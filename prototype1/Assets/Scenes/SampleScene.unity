@@ -392,7 +392,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0.01
-  knockbackTimeP2: 0.5
+  knockbackTimeP2: 0.8
   objplayer2: {fileID: 1691209579}
   player2Stun: 0
   animator1: {fileID: 881436239}
@@ -586,7 +586,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0.015
-  knockbackTimeP1: 0.6
+  knockbackTimeP1: 0.5
   objplayer1: {fileID: 881436233}
   player1Stun: 0
   animator2: {fileID: 1691209586}
