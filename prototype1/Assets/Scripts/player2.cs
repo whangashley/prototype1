@@ -7,9 +7,6 @@ public class player2 : MonoBehaviour
 
     /*Below are the links and sources used to help code this project!
     
-    “How to make Frogger in Unity (Complete Tutorial)” by Zigurous
-    Section Environment Loop
-    https://www.youtube.com/watch?v=GxlxZ5q__Tc&list=PL3J5ZZINwCjTcqqOzdKPbZkA1KfnLsp8w&index=8&t=19s 
     “Enemy Knockback in Unity” by BliskenX
     https://www.youtube.com/watch?v=nHPXiRNaNoM*/
     
@@ -27,7 +24,7 @@ public class player2 : MonoBehaviour
     {
         //setting player 2's rigidbody into the variable
         //player2Body = gameObject.GetComponent<Rigidbody2D>();
-        knockbackTimeP1 = 0.6f;
+        //knockbackTimeP1 = 0.6f;
         player1Hit = false;
     }
 
@@ -36,43 +33,30 @@ public class player2 : MonoBehaviour
     {
         //if player 2 presses up arrow key
         if (Input.GetKey(KeyCode.UpArrow)) {
-            //then player 2 will move up
-            Move(Vector3.up);
+            if (transform.position.y < 5f) {
+                //then player 2 will move up
+                Move(Vector3.up);
+            }
         }
         //else if player 2 presses down arrow key
         else if (Input.GetKey(KeyCode.DownArrow)) {
             //and if the player's y position is above the bottom of the screen
-            // if (transform.position.y > -9.4f) {
-            //     //then player 2 will move down
+            if (transform.position.y > -4.6f) {
+                //then player 2 will move down
                 Move(Vector3.down);
-            // }
+            }
         }
 
         if (Input.GetKey(KeyCode.RightArrow)) {
-            Move(Vector3.right);
+            if (transform.position.x < 6.6f) {
+                Move(Vector3.right);
+            }
         }
         else if (Input.GetKey(KeyCode.LeftArrow)) {
-            Move(Vector3.left);
+            if (transform.position.x > -6f) {
+                Move(Vector3.left);
+            }
         }
-    
-        //if player is hit, then the timer will countdown
-        if (player1Hit == true) {
-            knockbackTimeP1 -= Time.deltaTime; 
-        }
-        //if the countdown finishes, player is not hit. reset the timer
-        else if (player1Hit == false) {
-            knockbackTimeP1 = 0.6f;             
-        }
-
-        // //if the countdown hits zero
-        // if (knockbackTimeP1 <= 0) {
-        //     //stop player from moving
-        //     player1Body.velocity = Vector2.zero;
-        //     //set bool to false; player is no longer hit. bool triggers timer reset
-        //     player1Hit = false;
-        //     //set back to kinematic; player is no longer affected by gravity
-        //     player1Body.isKinematic = true;
-        // }
     }
 
     //move function
@@ -87,10 +71,15 @@ public class player2 : MonoBehaviour
             Debug.Log("i hit player 1");
             //set kinematic to dynamic so force is applied (gravity on)
             player1Body.isKinematic = false;
-            //force applied downwards to the player to create knock back effect
-            player1Body.AddForce(-transform.up, ForceMode2D.Impulse);
-            //set bool to true; player has been hit
-            player1Hit = true;
+            Vector2 difference = player1Body.transform.position - transform.position;
+            difference = difference.normalized * 2;
+            player1Body.AddForce(difference, ForceMode2D.Impulse);
+            StartCoroutine(countDownCo(player1Body));
         }
+    }
+    private IEnumerator countDownCo(Rigidbody2D player1) {
+        yield return new WaitForSeconds(knockbackTimeP1);
+        player1.velocity = Vector2.zero;
+        player1.isKinematic = true;
     }
 }
