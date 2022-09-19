@@ -19,6 +19,7 @@ public class player2 : MonoBehaviour
     public float knockbackTimeP1;
     public bool player1Hit;
 
+    public Animator animator2;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,11 +27,13 @@ public class player2 : MonoBehaviour
         //player2Body = gameObject.GetComponent<Rigidbody2D>();
         //knockbackTimeP1 = 0.6f;
         player1Hit = false;
+        animator2.SetBool("player2Moving", false);
     }
 
     // Update is called once per frame
     void Update()
     {
+        animator2.SetBool("player2Moving", false);
         //if player 2 presses up arrow key
         if (Input.GetKey(KeyCode.UpArrow)) {
             if (transform.position.y < 5f) {
@@ -62,6 +65,7 @@ public class player2 : MonoBehaviour
     //move function
     void Move(Vector3 direction) {
         transform.position += direction * speed;
+        animator2.SetBool("player2Moving", true);
     }
     
     //if the player hits an enemy
